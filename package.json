@@ -1,0 +1,24 @@
+{
+  "name": "hapi-access-token",
+  "version": "0.0.1",
+  "description": "Simple third party access token login plugin for Hapi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab"
+  },
+  "author": "Ro Ramtohul",
+  "license": "BSD",
+  "dependencies": {
+    "boom": "^2.4.2",
+    "hoek": "^2.3.0",
+    "joi": "^4.6.1",
+    "nipple": "^2.5.3"
+  },
+  "peerDependencies": {
+    "hapi": "3.x.x || 4.x.x || 5.x.x || 6.x.x"
+  },
+  "devDependencies": {
+    "hapi": "^6.0.2",
+    "lab": "^3.2.1"
+  }
+}
