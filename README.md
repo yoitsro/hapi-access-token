@@ -1,8 +1,3 @@
-hapi-access-token
-=================
-
-Simple third party access token login plugin for Hapi
-=======
 ### **hapi-access-token**
 
 **hapi-access-token** is a third-party login plugin for [hapi](https://github.com/spumko/hapi). **hapi-access-token** comes with default support for Facebook. This was built with mobile apps in mind: mobile apps generally authenticate themselves with the installed app, and they simply receive an access token for future requests on the user's behalf. 
