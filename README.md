@@ -15,12 +15,10 @@ var Hapi = require('hapi');
 var Boom = require('boom');
 var server = new Hapi.Server(8000);
 
-// Register bell with the server
-server.pack.register(require('hapi-access-token'), function (err) {
+// Register hapi-access-token with the server
+server.register(require('hapi-access-token'), function (err) {
 
-    // Declare an authentication strategy using the bell scheme
-    // with the name of the provider, cookie encryption password,
-    // and the OAuth client credentials.
+    // Declare an authentication strategy using the hapi-access-token scheme
     server.auth.strategy('hapi-access-token', 'hapi-access-token', {
         accessTokenKeyName: 'access_token', // The query parameter key you'll be specifying the access token in,
         profileUrl: 'https://graph.facebook.com/me?access_token=', // The url to get the user's profile,
@@ -42,7 +40,7 @@ server.pack.register(require('hapi-access-token'), function (err) {
                     raw: profile
                 };
         
-                return reply(null, {credentials: credentials});
+                return reply.continue(null, {credentials: credentials});
             } catch(err) {
                 return reply(Boom.unauthorized(err.toString()));
             }
@@ -50,8 +48,8 @@ server.pack.register(require('hapi-access-token'), function (err) {
     });
 
     server.route({
-        method: ['GET'], // Must handle both GET and POST
-        path: '/login',          // The callback endpoint registered with the provider
+        method: ['GET'],
+        path: '/login',   // The callback endpoint registered with the provider
         config: {
             auth: 'access-token',
             handler: function (request, reply) {
