@@ -1,6 +1,6 @@
 {
   "name": "hapi-access-token",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple third party access token login plugin for Hapi.",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "code": "^1.2.1",
-    "hapi": "^8.0.0"
+    "hapi": "^8.0.0",
+    "lab": "^5.1.0"
   }
 }
