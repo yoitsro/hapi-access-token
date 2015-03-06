@@ -121,4 +121,46 @@ describe('Access Token', function() {
         });
     });
 
+    it('token is in the post data', function(done) { 
+        var server = new Hapi.Server();
+        server.connection();
+
+        server.register(require('../'), function (err) {
+            expect(err).to.not.exist();
+
+            server.auth.strategy('access-token', 'access-token', {
+                accessTokenKeyName: 'fishface',
+                profileUrl: 'http://www.google.co.uk/?access_token=',
+                validateFunc: function(payload, accessToken, reply, request) {
+
+                    expect(request).to.exist();
+                    request.auth.credentials = {
+                        name: 'Barry White',
+                        age: 24
+                    };
+                    reply.continue();
+                }
+            },false, { payload: true });
+
+            server.route({ method: 'POST', path: '/', config: {
+                auth: {strategies: ['access-token'], payload: true},
+                handler: function(request, reply) {
+
+                    expect(request.auth.credentials).to.exist();
+                    expect(request.auth.credentials.name).to.exist();
+                    expect(request.auth.credentials.name).to.equal('Barry White');
+                    expect(request.auth.credentials.age).to.equal(24);
+                    expect(request.payload.terry).to.equal('shpongle');
+                    reply({credentials: request.auth.credentials})
+                }
+            }});
+
+            server.inject({url:'/', method: 'POST', payload: { fishface: 'barry', terry: 'shpongle' }}, function (res) {
+
+                expect(res.statusCode).to.equal(200);
+                return done();
+            });
+        });
+    });
+
 });
