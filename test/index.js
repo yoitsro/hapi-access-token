@@ -65,8 +65,8 @@ describe('Access Token', function() {
             server.route({ method: 'GET', path: '/', config: {
                 auth: 'access-token',
                 handler: function(request, reply) {
-                    expect(request.auth.credentials).to.exist;
-                    expect(request.auth.credentials.name).to.exist;
+                    expect(request.auth.credentials).to.exist();
+                    expect(request.auth.credentials.name).to.exist();
                     expect(request.auth.credentials.name).to.equal('Barry White');
                     expect(request.auth.credentials.age).to.equal(24);
                     reply({credentials: request.auth.credentials})
@@ -74,6 +74,48 @@ describe('Access Token', function() {
             }});
 
             server.inject({url:'/?fishface=barry'}, function(res) {
+                return done();
+            });
+        });
+    });
+
+    it('passes the original request through', function(done) { 
+        var server = new Hapi.Server();
+        server.connection();
+
+        server.register(require('../'), function (err) {
+            expect(err).to.not.exist();
+
+            server.auth.strategy('access-token', 'access-token', {
+                accessTokenKeyName: 'fishface',
+                profileUrl: 'http://www.google.co.uk/?access_token=',
+                validateFunc: function(payload, accessToken, reply, request) {
+
+                    expect(request).to.exist();
+
+                    reply.continue({
+                        credentials: {
+                            name: 'Barry White',
+                            age: 24
+                        }
+                    });
+                }
+            });
+
+            server.route({ method: 'GET', path: '/', config: {
+                auth: 'access-token',
+                handler: function(request, reply) {
+
+                    expect(request.auth.credentials).to.exist();
+                    expect(request.auth.credentials.name).to.exist();
+                    expect(request.auth.credentials.name).to.equal('Barry White');
+                    expect(request.auth.credentials.age).to.equal(24);
+                    expect(request.query.terry).to.equal('shpongle');
+                    reply({credentials: request.auth.credentials})
+                }
+            }});
+
+            server.inject({url:'/?fishface=barry&terry=shpongle'}, function(res) {
                 return done();
             });
         });
