@@ -1,6 +1,6 @@
 {
   "name": "hapi-access-token",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simple third party access token login plugin for Hapi.",
   "main": "index.js",
   "scripts": {
@@ -13,17 +13,20 @@
   },
   "license": "BSD",
   "dependencies": {
-    "boom": "^2.6.1",
-    "hoek": "^2.10.0",
-    "joi": "^5.0.2",
-    "wreck": "^5.0.1"
+    "boom": "^2.10.1",
+    "hoek": "^2.16.3",
+    "joi": "^5.1.0",
+    "wreck": "^5.6.1"
   },
   "peerDependencies": {
     "hapi": "13.x.x"
   },
   "devDependencies": {
-    "code": "^1.2.1",
-    "hapi": "^8.0.0",
-    "lab": "^5.1.0"
+    "code": "^3.0.1",
+    "hapi": "^13.4.1",
+    "lab": "^10.8.2"
+  },
+  "engines": {
+    "node": ">4.0.0"
   }
 }
