@@ -19,7 +19,7 @@ var server = new Hapi.Server(8000);
 server.register(require('hapi-access-token'), function (err) {
 
     // Declare an authentication strategy using the hapi-access-token scheme
-    server.auth.strategy('hapi-access-token', 'hapi-access-token', {
+    server.auth.strategy('facebook-access-token', 'access-token', {
         accessTokenKeyName: 'access_token', // The query parameter key you'll be specifying the access token in,
         profileUrl: 'https://graph.facebook.com/me?access_token=', // The url to get the user's profile,
         validateFunc: function(payload, accessToken, reply) { // The function which will extract the user profile and set it as the request's credentials
@@ -51,7 +51,7 @@ server.register(require('hapi-access-token'), function (err) {
         method: ['GET'],
         path: '/login',   // The callback endpoint registered with the provider
         config: {
-            auth: 'access-token',
+            auth: 'facebook-access-token',
             handler: function (request, reply) {
 
                 // Perform any account lookup or registration, setup local session,
